@@ -61,23 +61,22 @@ Card thumbnails are the book cover images already inside each package
   `if (player.g) { player.g.style = ... }`. Upstream assumes `player.g` always exists and throws a
   `TypeError` in the console otherwise. Re-extracting a `.h5p` overwrites this patch, so re-apply it
   after replacing a unit.
-- The videos are YouTube embeds (`youtube.com/embed/...`), so the page needs internet access.
-  Offline they show an empty black frame, not an error.
-- YouTube embeds fail with `Error 153` when the browser suppresses the referrer, and they fail
-  with no player UI in headless or offscreen Chromium. Both were observed in the OpenCode preview
-  browser, not in a normal desktop browser. Verified with `youtube.com/oembed` that the videos
-  themselves are embeddable. If a video still fails in a normal browser, export it to `.mp4` and
-  swap the video source in `content/<slug>/content/content.json`.
-- **Playback depends on the YouTube video staying public.** A private or deleted video shows
-  "This video is private" inside the player. Check the eight source videos with
-  `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=<id>&format=json` — a 403
-  means it is not public.
+- **The videos are stored with the site** (`content/<slug>/content/videos/<id>.mp4`), not embedded
+  from YouTube. Each unit's `content.json` points at `videos/<id>.mp4` with `mime: video/mp4`.
+  Self-hosting was forced by YouTube `Error 153` (the embed refuses to load when the browser
+  suppresses the referrer, which some phones and privacy settings do), and it also removes
+  pre-roll ads from a classroom activity.
+- To change a video, drop the new `.mp4` into `content/<slug>/content/videos/` and update the
+  `sources` (or `files`, for Interactive Video) entry in `content/<slug>/content/content.json`.
+  Then re-zip the folder into `downloads/<slug>.h5p` so the download matches the site.
+- Replacing the videos cost about 56 MB. The `downloads/*.h5p` copies carry the same files, so
+  the site is roughly 200 MB in total.
 - `node_modules/` is only needed to re-copy `dist/`. The site runs without it.
 
 ## Deploying
 
-Upload `index.html`, `assets/` and `content/` to any static host. Total size is about 64 MB,
-which matters for GitHub Pages (1 GB limit, fine) and for free Netlify/Vercel (100 GB bandwidth).
+Upload `index.html`, `assets/`, `content/` and `downloads/` to any static host. Total size is about
+198 MB, which is fine for GitHub Pages (1 GB limit) but worth knowing for bandwidth-limited hosts.
 Serve over https so the published link is usable from a journal article.
 
 ## Missing

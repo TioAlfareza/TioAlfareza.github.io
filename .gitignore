@@ -1,0 +1,6 @@
+node_modules/
+*.bak
+_check.pdf
+_t1.png
+_pg*.png
+_fin*.png

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H5P Listening Materials for Grade XI — Tio Alfareza</title>
+<meta name="description" content="Interactive H5P listening materials for Grade XI senior high school students, developed with the ADDIE model.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202a; --ink-soft:#4b5a68; --line:#e2ded7; --paper:#fbf9f5;
+    --card:#ffffff; --accent:#0d6b6b; --accent-soft:#e6f1f0; --warm:#b8562f;
+    --shadow:0 1px 2px rgba(22,32,42,.05), 0 8px 24px -12px rgba(22,32,42,.18);
+    --radius:14px;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  .shell{ max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 0; border-bottom:1px solid var(--line);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:-.01em; }
+  .mark{
+    width:30px; height:30px; border-radius:8px; display:grid; place-items:center;
+    background:var(--accent); color:#fff; font-size:13px; font-weight:600; letter-spacing:.02em;
+  }
+  .topbar .meta{ font-size:13px; color:var(--ink-soft); }
+
+  /* ---------- hero ---------- */
+  .hero{ padding:72px 0 56px; border-bottom:1px solid var(--line); }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft);
+    padding:7px 13px; border-radius:999px; margin-bottom:26px;
+  }
+  .hero h1{
+    font-family:Fraunces, Georgia, serif; font-weight:600;
+    font-size:clamp(34px, 5.2vw, 57px); line-height:1.05; letter-spacing:-.02em;
+    margin:0 0 22px; max-width:19ch;
+  }
+  .hero h1 em{ font-style:normal; color:var(--accent); }
+  .lede{ font-size:18px; line-height:1.65; color:var(--ink-soft); max-width:60ch; margin:0 0 34px; }
+  .actions{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  .btn{
+    display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+    font-size:15px; font-weight:600; padding:13px 22px; border-radius:10px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{ background:var(--ink); color:#fff; box-shadow:var(--shadow); }
+  .btn-primary:hover{ transform:translateY(-1px); background:#0b1620; }
+  .btn-ghost{ border:1px solid var(--line); background:#fff; }
+  .btn-ghost:hover{ border-color:var(--ink-soft); }
+  .btn svg{ width:15px; height:15px; }
+
+  /* ---------- units ---------- */
+  .section-head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:24px; padding:64px 0 30px;
+  }
+  .section-head h2{
+    font-family:Fraunces, Georgia, serif; font-weight:600; letter-spacing:-.015em;
+    font-size:clamp(24px, 3.2vw, 32px); margin:0;
+  }
+  .section-head p{ margin:6px 0 0; color:var(--ink-soft); font-size:15px; max-width:46ch; }
+
+  .grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:22px; padding-bottom:80px; }
+  .unit{
+    position:relative; display:flex; flex-direction:column;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; text-decoration:none; box-shadow:var(--shadow);
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .unit:hover{ transform:translateY(-3px); border-color:#cfc8bd;
+               box-shadow:0 2px 4px rgba(22,32,42,.05), 0 18px 40px -18px rgba(22,32,42,.3); }
+  .unit:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
+  .thumb{
+    position:relative; aspect-ratio:16/9; overflow:hidden; background:#e8e4dc;
+  }
+  .thumb img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .4s ease;
+  }
+  .unit:hover .thumb img{ transform:scale(1.035); }
+  .num{
+    position:absolute; top:12px; left:12px; z-index:2;
+    background:rgba(22,32,42,.82); color:#fff; backdrop-filter:blur(6px);
+    font-size:12px; font-weight:600; letter-spacing:.06em;
+    padding:5px 10px; border-radius:7px;
+  }
+  .flag{
+    position:absolute; top:12px; right:12px; z-index:2;
+    background:#fff; color:var(--warm); border:1px solid #f0d6c9;
+    font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
+    padding:5px 9px; border-radius:7px;
+  }
+  .unit-body{ padding:20px 22px 22px; display:flex; flex-direction:column; gap:7px; flex:1; }
+  .unit-body h3{
+    font-family:Fraunces, Georgia, serif; font-weight:600; font-size:20px;
+    letter-spacing:-.01em; margin:0; line-height:1.25;
+  }
+  .unit-body p{ margin:0; font-size:14px; line-height:1.55; color:var(--ink-soft); }
+  .open{
+    margin-top:auto; padding-top:14px; display:flex; align-items:center; gap:6px;
+    font-size:14px; font-weight:600; color:var(--accent);
+  }
+  .open svg{ width:14px; height:14px; transition:transform .18s ease; }
+  .unit:hover .open svg{ transform:translateX(3px); }
+
+  /* The card is a div with a stretched link, so the download link can sit
+     inside it without nesting one <a> in another. */
+  .stretch{ text-decoration:none; color:inherit; }
+  .stretch::after{ content:""; position:absolute; inset:0; z-index:1; }
+  .download{
+    position:relative; z-index:2; align-self:flex-start;
+    display:inline-flex; align-items:center; gap:6px; text-decoration:none;
+    margin-top:10px; padding:7px 12px; border:1px solid var(--line); border-radius:8px;
+    background:#fff; font-size:12.5px; font-weight:500; color:var(--ink-soft);
+  }
+  .download:hover{ border-color:var(--accent); color:var(--accent); }
+  .download svg{ width:13px; height:13px; }
+
+  /* ---------- about ---------- */
+  .about{
+    border-top:1px solid var(--line); padding:56px 0 72px;
+    display:grid; grid-template-columns:1.4fr 1fr; gap:48px;
+  }
+  .about h2{
+    font-family:Fraunces, Georgia, serif; font-weight:600; font-size:24px;
+    letter-spacing:-.01em; margin:0 0 12px;
+  }
+  .about p{ margin:0 0 12px; color:var(--ink-soft); font-size:15px; }
+  .dl{ margin:0; font-size:14px; }
+  .dl div{ display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .dl dt{ color:var(--ink-soft); }
+  .dl dd{ margin:0; font-weight:500; text-align:right; }
+
+  footer{ border-top:1px solid var(--line); padding:26px 0 40px; font-size:13px; color:var(--ink-soft); }
+
+  @media (max-width:760px){
+    .grid{ grid-template-columns:1fr; }
+    .about{ grid-template-columns:1fr; gap:28px; }
+    .hero{ padding:48px 0 40px; }
+    .section-head{ flex-direction:column; align-items:flex-start; padding-top:48px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="topbar">
+    <div class="brand"><span class="mark">H5P</span> Listening Materials</div>
+    <div class="meta">Grade XI &middot; English</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="shell">
+    <span class="eyebrow">Interactive materials &middot; Four units</span>
+    <h1>H5P Listening Materials</h1>
+    <p class="lede">
+      A set of H5P-based English listening materials for Grade XI, built around four text types
+      from the Phase F learning outcomes. Each unit is an interactive book that pairs a video
+      with comprehension tasks.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="unit.html?u=unit-1-narrative">
+        Start with Unit 1
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="#units">Browse all units</a>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+  <div class="section-head" id="units">
+    <div>
+      <h2>The four units</h2>
+      <p>Each unit follows the same sequence: pre-listening, while-listening, then a review.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="unit">
+      <div class="thumb">
+        <span class="num">Unit 1</span>
+        <span class="flag">Used in trial</span>
+        <img src="content/unit-1-narrative/content/images/image-An8oJYky.png" alt="Cover of the narrative text unit">
+      </div>
+      <div class="unit-body">
+        <h3><a class="stretch" href="unit.html?u=unit-1-narrative">Narrative Text</a></h3>
+        <p>Technology Story. Students follow a sequence of events, characters, and setting.</p>
+        <span class="open">Open unit
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+        <a class="download" href="downloads/unit-1-narrative.h5p" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+          Download .h5p
+        </a>
+      </div>
+    </div>
+
+    <div class="unit">
+      <div class="thumb">
+        <span class="num">Unit 2</span>
+        <img src="content/unit-2-argumentative/content/images/image-jTgfB9d0.png" alt="Cover of the argumentative text unit">
+      </div>
+      <div class="unit-body">
+        <h3><a class="stretch" href="unit.html?u=unit-2-argumentative">Argumentative Text</a></h3>
+        <p>Is social media more helpful or harmful? Students identify the writer's position and reasons.</p>
+        <span class="open">Open unit
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+        <a class="download" href="downloads/unit-2-argumentative.h5p" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+          Download .h5p
+        </a>
+      </div>
+    </div>
+
+    <div class="unit">
+      <div class="thumb">
+        <span class="num">Unit 3</span>
+        <img src="content/unit-3-hortatory/content/images/image-2tsEyZ5I.png" alt="Cover of the hortatory exposition unit">
+      </div>
+      <div class="unit-body">
+        <h3><a class="stretch" href="unit.html?u=unit-3-hortatory">Hortatory Exposition</a></h3>
+        <p>We should reduce plastic waste. Students pick out recommendations and supporting arguments.</p>
+        <span class="open">Open unit
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+        <a class="download" href="downloads/unit-3-hortatory.h5p" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+          Download .h5p
+        </a>
+      </div>
+    </div>
+
+    <div class="unit">
+      <div class="thumb">
+        <span class="num">Unit 4</span>
+        <img src="content/unit-4-discussion/content/images/image-MRW7nrug.png" alt="Cover of the discussion text unit">
+      </div>
+      <div class="unit-body">
+        <h3><a class="stretch" href="unit.html?u=unit-4-discussion">Discussion Text</a></h3>
+        <p>Carbon footprint. Students weigh arguments for and against an issue before reaching a view.</p>
+        <span class="open">Open unit
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+        <a class="download" href="downloads/unit-4-discussion.h5p" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+          Download .h5p
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section class="about">
+    <div>
+      <h2>About these materials</h2>
+      <p>
+        The materials were developed as part of a Research and Development study using the ADDIE
+        model. The requirements came from a review of the Phase F English learning outcomes and a
+        consultation with the English teacher about classroom conditions.
+      </p>
+    </div>
+    <dl class="dl">
+      <div><dt>Researcher</dt><dd>Tio Alfareza</dd></div>
+    </dl>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Interactive materials built with H5P. Videos require an internet connection.
+  </div>
+</footer>
+
+</body>
+</html>

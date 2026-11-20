@@ -119,16 +119,24 @@ if (!Player) {
     '<code>assets/h5p-player/main.bundle.js</code> exists and that the page is served over http, ' +
     'not opened as a <code>file://</code> path.</div>';
 } else {
-  new Player(stage, {
-    // Absolute paths: the player builds asset URLs as host + path with no separator.
-    h5pJsonPath: BASE + '/content/' + unit.slug,
-    frameJs: BASE + '/assets/h5p-player/frame.bundle.js',
-    frameCss: BASE + '/assets/h5p-player/styles/h5p.css',
-    frame: true,
-    reportingIsEnabled: true,
-    copyright: true,
-    icon: false
-  });
+  // GitHub Pages caches content.json for 10 minutes, so a browser that loaded the page before
+  // a content update would keep playing the old version. Revalidate it before the player reads it.
+  (async () => {
+    try {
+      await fetch(BASE + '/content/' + unit.slug + '/content/content.json', { cache: 'reload' });
+    } catch (e) { /* offline: the player falls back to whatever is cached */ }
+
+    new Player(stage, {
+      // Absolute paths: the player builds asset URLs as host + path with no separator.
+      h5pJsonPath: BASE + '/content/' + unit.slug,
+      frameJs: BASE + '/assets/h5p-player/frame.bundle.js',
+      frameCss: BASE + '/assets/h5p-player/styles/h5p.css',
+      frame: true,
+      reportingIsEnabled: true,
+      copyright: true,
+      icon: false
+    });
+  })();
 }
 </script>
 </body>
